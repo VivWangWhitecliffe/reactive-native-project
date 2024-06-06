@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window'); // Get screen dimensions
 
-const HomeScreen = ({ navigation }) => {
-  const [notes, setNotes] = useState(['Sample Note 1', 'Sample Note 2']); // Sample notes
-
+const HomeScreen = ({ navigation, notes, setNotes }) => {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.title}>Notes</Text>
@@ -20,19 +19,18 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
       <Button
         title="Add Note"
-        onPress={() => navigation.navigate('Details', { notes, setNotes })}
+        onPress={() => navigation.navigate('Details')}
       />
     </View>
   );
 };
 
-const DetailsScreen = ({ route, navigation }) => {
-  const { notes, setNotes } = route.params;
+const DetailsScreen = ({ route, navigation, notes, setNotes }) => {
   const [note, setNote] = useState('');
 
   const handleAddNote = () => {
     if (note.trim()) {
-      setNotes([...notes, note]);
+      setNotes(prevNotes => [...prevNotes, note]); // Append the new note to the existing notes array
       setNote('');
       navigation.navigate('Home'); // Navigate back to Home screen after adding a note
     }
@@ -53,24 +51,26 @@ const DetailsScreen = ({ route, navigation }) => {
 
 const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+const AppNavigator = ({ notes, setNotes }) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen
-        name="Details"
-        component={DetailsScreen}
-        initialParams={{ notes: [], setNotes: () => {} }} 
-      />
+      <Tab.Screen name="Home">
+        {props => <HomeScreen {...props} notes={notes} setNotes={setNotes} />}
+      </Tab.Screen>
+      <Tab.Screen name="Details">
+        {props => <DetailsScreen {...props} notes={notes} setNotes={setNotes} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };
 
 export default function App() {
+  const [notes, setNotes] = useState(['Sample Note 1', 'Sample Note 2']); // Sample notes
+
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <AppNavigator />
+        <AppNavigator notes={notes} setNotes={setNotes} />
       </NavigationContainer> 
       <StatusBar style="auto" />
     </View>
@@ -113,5 +113,4 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
-
 });
