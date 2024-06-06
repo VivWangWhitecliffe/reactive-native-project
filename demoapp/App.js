@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window'); // Get screen dimensions
 
-const HomeScreen = ({ navigation, notes, setNotes }) => {
+const HomeScreen = ({ navigation, notes }) => {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.title}>Notes</Text>
@@ -25,7 +24,7 @@ const HomeScreen = ({ navigation, notes, setNotes }) => {
   );
 };
 
-const DetailsScreen = ({ route, navigation, notes, setNotes }) => {
+const DetailsScreen = ({ navigation, setNotes }) => {
   const [note, setNote] = useState('');
 
   const handleAddNote = () => {
