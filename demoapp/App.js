@@ -1,9 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button,  TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 
 
 const HomeScreen = ({ navigation }) => {
@@ -58,7 +57,11 @@ const AppNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Details" component={DetailsScreen} />
+      <Tab.Screen
+        name="Details"
+        component={DetailsScreen}
+        initialParams={{ notes: [], setNotes: () => {} }} 
+      />
     </Tab.Navigator>
   );
 };
