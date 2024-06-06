@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button,  TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window'); // Get screen dimensions
+
 
 const HomeScreen = ({ navigation }) => {
   const [notes, setNotes] = useState(['Sample Note 1', 'Sample Note 2']); // Sample notes
